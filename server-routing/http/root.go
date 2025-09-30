@@ -9,11 +9,3 @@ func AppHandler() *RootHandler {
 
 	return handler
 }
-
-func TestHandler() *RootHandler {
-	handler := NewRootHandler()
-
-	handler.RegisterHandler(user.UserHandler, "family")
-
-	return handler
-}
