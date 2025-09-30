@@ -1,0 +1,22 @@
+{
+    "tax": 50,
+    "work_days": 21,
+    "work_hours": 8,
+    "resources": [
+        { "name": "coal", "price": 10 },
+        { "name": "silver", "price": 40 },
+        { "name": "gold", "price": 100 }
+    ],
+    "levels": {
+        "warehouse": {
+            "capacity": [0, 500, 1000, 3000]
+        },
+        "mine": {
+            "miners_count": [0, 3, 2, 2]
+        },
+        "miner": {
+            "resources_in_day": [0, 20, 50, 100]
+        }
+    },
+    "logs": true
+}
