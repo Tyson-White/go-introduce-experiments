@@ -10,9 +10,10 @@ func main() {
 		"postgres",
 		"password",
 		"postgres",
+		5433,
 	)
 
 	handler := httpserver.RootHandler(repository.DB)
 
-	httpserver.StartHttpServer(handler)
+	httpserver.StartHttpServer(handler, 8080)
 }

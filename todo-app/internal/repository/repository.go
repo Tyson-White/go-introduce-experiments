@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"fmt"
+	"log"
 
 	_ "github.com/lib/pq"
 )
@@ -15,12 +16,12 @@ func ConnectDB(
 	user,
 	password,
 	dbName string,
+	dbPort int,
 ) DBConnection {
 
 	dbconn := DBConnection{}
 
-	connStr := fmt.Sprintf("user=%v password=%v port=5433 dbname=%v sslmode=disable", user, password, dbName)
-	fmt.Println(connStr)
+	connStr := fmt.Sprintf("user=%v password=%v port=%d dbname=%v sslmode=disable", user, password, dbPort, dbName)
 	db, err := sql.Open("postgres", connStr)
 
 	err = db.Ping()
@@ -36,6 +37,8 @@ func ConnectDB(
 	}
 
 	dbconn.DB = db
+
+	log.Println("[INFO] Connected to postgres on port:", dbPort)
 
 	return dbconn
 }

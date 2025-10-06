@@ -24,8 +24,13 @@ func (r *TodoRepository) AddTodo(data dto.CreateTodo) (models.Todo, error) {
 
 	var createdTodo models.Todo
 
-	err := r.db.QueryRow(fmt.Sprintf("INSERT INTO todos (title, text) values ('%v', '%v')", data.Title, data.Text)).
-		Scan(&createdTodo.Id, &createdTodo.Title, &createdTodo.Text, &createdTodo.Time, &createdTodo.Completed)
+	row := r.db.QueryRow(fmt.Sprintf("INSERT INTO todos (title, text) values ('%v', '%v') RETURNING id, title, text, time, completed", data.Title, data.Text))
+
+	if row.Err() != nil {
+		return models.Todo{}, row.Err()
+	}
+
+	err := row.Scan(&createdTodo.Id, &createdTodo.Title, &createdTodo.Text, &createdTodo.Time, &createdTodo.Completed)
 
 	if err != nil {
 		return models.Todo{}, err
@@ -62,4 +67,18 @@ func (r *TodoRepository) Todos() ([]models.Todo, error) {
 
 	return todos, nil
 
+}
+
+func (r *TodoRepository) MarkAsCompleted(todoId int) (models.Todo, error) {
+	var createdTodo models.Todo
+
+	row := r.db.QueryRow(fmt.Sprintf("UPDATE todos SET completed=true WHERE id=%d RETURNING id, title, text, time, completed", todoId))
+
+	err := row.Scan(&createdTodo.Id, &createdTodo.Title, &createdTodo.Text, &createdTodo.Time, &createdTodo.Completed)
+
+	if err != nil {
+		return models.Todo{}, err
+	}
+
+	return createdTodo, nil
 }

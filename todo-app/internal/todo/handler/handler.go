@@ -22,6 +22,7 @@ func Handler(r *mux.Router, service *todo.TodoService) *TodoHandler {
 
 	r.Path("/create").Methods(http.MethodPost).HandlerFunc(h.add)
 	r.Path("").Methods(http.MethodGet).HandlerFunc(h.allTodos)
+	r.Path("/complete").Methods(http.MethodPatch).HandlerFunc(h.markAsCompleted)
 
 	return &h
 
@@ -68,4 +69,30 @@ func (h *TodoHandler) allTodos(w http.ResponseWriter, r *http.Request) {
 
 	w.Write(data)
 
+}
+
+func (h *TodoHandler) markAsCompleted(w http.ResponseWriter, r *http.Request) {
+	var body dto.MarkTodo
+
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		http.Error(w, pkg.HttpError(err), http.StatusBadRequest)
+		return
+	}
+
+	todo, err := h.service.MarkAsCompleted(body.Id)
+
+	if err != nil {
+		http.Error(w, pkg.HttpError(err), http.StatusBadRequest)
+		return
+	}
+
+	data, err := json.Marshal(todo)
+
+	if err != nil {
+		http.Error(w, pkg.HttpError(err), http.StatusBadRequest)
+		return
+	}
+
+	w.WriteHeader(http.StatusAccepted)
+	w.Write(data)
 }
