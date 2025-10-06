@@ -1,15 +1,15 @@
 package repository
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
 type DBConnection struct {
-	DB *sql.DB
+	DB *sqlx.DB
 }
 
 func ConnectDB(
@@ -22,15 +22,9 @@ func ConnectDB(
 	dbconn := DBConnection{}
 
 	connStr := fmt.Sprintf("user=%v password=%v port=%d dbname=%v sslmode=disable", user, password, dbPort, dbName)
-	db, err := sql.Open("postgres", connStr)
+	db, err := sqlx.Connect("postgres", connStr)
 
 	err = db.Ping()
-
-	if err != nil {
-		panic(err)
-	}
-
-	_, err = db.Exec("CREATE TABLE IF NOT EXISTS todos (id serial not null unique, title varchar(255) not null, text text, time timestamp default now(), completed bool default false)")
 
 	if err != nil {
 		panic(err)

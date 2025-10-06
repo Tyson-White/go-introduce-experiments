@@ -1,7 +1,7 @@
 package todo
 
 import (
-	todo "db-study/internal/todo/repository"
+	todo "db-study/internal/module/todo/repository"
 )
 
 type TodoService struct {

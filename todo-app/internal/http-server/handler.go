@@ -1,26 +1,33 @@
 package httpserver
 
 import (
-	"database/sql"
+	todoHandler "db-study/internal/module/todo/handler"
+	todoRepository "db-study/internal/module/todo/repository"
+	todoService "db-study/internal/module/todo/service"
 
-	todoHandler "db-study/internal/todo/handler"
-	todoRepository "db-study/internal/todo/repository"
-	todoService "db-study/internal/todo/service"
+	categoryHandler "db-study/internal/module/category/handler"
+	categoryRepository "db-study/internal/module/category/repository"
+	categoryService "db-study/internal/module/category/service"
 
 	"github.com/gorilla/mux"
+	"github.com/jmoiron/sqlx"
 )
 
 type SubHandler interface {
 	Handler(*mux.Router, any)
 }
 
-func RootHandler(db *sql.DB) *mux.Router {
+func RootHandler(db *sqlx.DB) *mux.Router {
 	r := mux.NewRouter()
 
-	todoR := todoRepository.New(db)
-	todoS := todoService.New(todoR)
+	todoRepo := todoRepository.New(db)
+	todoS := todoService.New(todoRepo)
+
+	catRepo := categoryRepository.New(db)
+	catS := categoryService.New(catRepo)
 
 	todoHandler.Handler(r.PathPrefix("/todos").Subrouter(), todoS)
+	categoryHandler.Handler(r.PathPrefix("/categories").Subrouter(), catS)
 
 	return r
 }
