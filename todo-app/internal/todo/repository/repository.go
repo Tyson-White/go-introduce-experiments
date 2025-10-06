@@ -82,3 +82,30 @@ func (r *TodoRepository) MarkAsCompleted(todoId int) (models.Todo, error) {
 
 	return createdTodo, nil
 }
+
+func (r *TodoRepository) TodosNotCompleted() ([]models.Todo, error) {
+	var todos = []models.Todo{}
+
+	rows, err := r.db.Query("SELECT * FROM todos WHERE completed=false")
+
+	if err != nil {
+		return todos, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		todo := models.Todo{}
+
+		err := rows.Scan(&todo.Id, &todo.Title, &todo.Text, &todo.Time, &todo.Completed)
+
+		if err != nil {
+			log.Println("[ERROR] Not completed todo reading:", err)
+			continue
+		}
+
+		todos = append(todos, todo)
+	}
+
+	return todos, nil
+}

@@ -30,7 +30,7 @@ func ConnectDB(
 		panic(err)
 	}
 
-	_, err = db.Exec("CREATE TABLE IF NOT EXISTS todos (id serial not null unique, title varchar(255) not null, text text, time timestamp default now())")
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS todos (id serial not null unique, title varchar(255) not null, text text, time timestamp default now(), completed bool default false)")
 
 	if err != nil {
 		panic(err)
