@@ -14,7 +14,8 @@ const schema = `
 		title varchar(255) not null, 
 		text text, 
 		time timestamp default now(), 
-		completed bool default false
+		completed bool default false,
+		category_id int REFERENCES category(id)
 	)`
 
 func New(db *sqlx.DB) *TodoRepository {

@@ -17,3 +17,9 @@ func main() {
 
 	httpserver.StartHttpServer(handler, 8080)
 }
+
+/*
+
+1. Привязка дел к категории по id
+
+*/

@@ -10,7 +10,7 @@ func (r *TodoRepository) AddTodo(data dto.CreateTodo) (models.Todo, error) {
 
 	var createdTodo models.Todo
 
-	row := r.db.QueryRowx(fmt.Sprintf("INSERT INTO todos (title, text) values ('%v', '%v') RETURNING id, title, text, time, completed", data.Title, data.Text))
+	row := r.db.QueryRowx(fmt.Sprintf("INSERT INTO todos (title, text, category_id) values ('%v', '%v', %v)", data.Title, data.Text, data.Category))
 
 	if row.Err() != nil {
 		return models.Todo{}, row.Err()

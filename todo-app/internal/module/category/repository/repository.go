@@ -10,7 +10,7 @@ const schema = `
 	CREATE TABLE IF NOT EXISTS category (
 		id serial not null unique,
 		name varchar(100) unique not null
-	)
+	);
 `
 
 func New(db *sqlx.DB) *CategoryRepository {

@@ -9,4 +9,5 @@ type Todo struct {
 	Time        time.Time `json:"time"`
 	Completed   bool      `json:"completed"`
 	ExpiresTime time.Time `json:"expires_time"`
+	CategoryId  int       `json:"category_id" db:"category_id"`
 }
