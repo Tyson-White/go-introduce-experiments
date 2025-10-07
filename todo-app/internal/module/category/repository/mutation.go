@@ -2,14 +2,13 @@ package category
 
 import (
 	"db-study/pkg/models"
-	"fmt"
 	"log"
 )
 
 func (r *CategoryRepository) CreateCategory(name string) (models.Category, error) {
 	var category models.Category
 
-	row := r.db.QueryRowx(fmt.Sprintf("INSERT INTO category (name) values ('%v') RETURNING id, name", name))
+	row := r.db.QueryRowx("INSERT INTO category (name) values ($1) RETURNING id, name", name)
 
 	err := row.StructScan(&category)
 
