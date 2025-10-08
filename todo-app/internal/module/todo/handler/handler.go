@@ -17,7 +17,7 @@ func Handler(r *mux.Router, service *todo.TodoService) *TodoHandler {
 	}
 
 	r.Path("/create").Methods(http.MethodPost).HandlerFunc(h.add)
-	r.Path("").Methods(http.MethodGet).Queries("category", "{category}").HandlerFunc(h.TodosByCategory)
+	r.Path("").Methods(http.MethodGet).Queries("category", "{category:[0-9]+}").HandlerFunc(h.TodosByCategory)
 	r.Path("").Methods(http.MethodGet).HandlerFunc(h.allTodos)
 	r.Path("/complete").Methods(http.MethodPatch).HandlerFunc(h.markAsCompleted)
 	r.Path("/not-completed").Methods(http.MethodGet).HandlerFunc(h.TodosNotCompleted)

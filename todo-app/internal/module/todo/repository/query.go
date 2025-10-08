@@ -94,8 +94,6 @@ func (r *TodoRepository) TodosCompleted() ([]models.Todo, error) {
 func (r *TodoRepository) TodoByCategory(category int) ([]models.Todo, error) {
 	todos := []models.Todo{}
 
-	fmt.Println(category)
-
 	rows, err := r.db.Queryx(fmt.Sprintf("SELECT * FROM todos WHERE category_id='%v'", category))
 
 	if err != nil {
