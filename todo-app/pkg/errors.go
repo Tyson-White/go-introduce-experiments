@@ -7,6 +7,7 @@ import (
 )
 
 var ErrValidation = errors.New("validation error -")
+var ErrNotFound = errors.New("no items with such value")
 
 func ErrorAddition(err error, additionText string) error {
 

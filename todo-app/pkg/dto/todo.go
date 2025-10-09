@@ -12,3 +12,7 @@ type CreateTodo struct {
 type MarkTodo struct {
 	Id int `json:"id"`
 }
+
+type DeleteTodoBody struct {
+	Todo int `json:"todo"`
+}

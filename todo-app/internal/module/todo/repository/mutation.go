@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"db-study/pkg"
 	"db-study/pkg/dto"
 	"db-study/pkg/models"
 )
@@ -32,4 +33,25 @@ func (r *TodoRepository) MarkAsCompleted(todoId int) (models.Todo, error) {
 	}
 
 	return createdTodo, nil
+}
+
+func (r *TodoRepository) DeleteTodo(todoId int) error {
+
+	res, err := r.db.Exec("DELETE FROM todos WHERE id=$1", todoId)
+
+	if err != nil {
+		return err
+	}
+
+	n, err := res.RowsAffected()
+
+	if err != nil {
+		return err
+	}
+
+	if n == 0 {
+		return pkg.ErrNotFound
+	}
+
+	return nil
 }

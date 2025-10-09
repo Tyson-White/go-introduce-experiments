@@ -19,4 +19,5 @@ func Handler(r *mux.Router, service *category.CategoryService) {
 
 	r.Path("/create").Methods(http.MethodPost).HandlerFunc(h.CreateCategory)
 	r.Path("").Methods(http.MethodGet).HandlerFunc(h.CategoriesAll)
+	r.Path("/delete").Methods(http.MethodDelete).HandlerFunc(h.DeleteCategory)
 }

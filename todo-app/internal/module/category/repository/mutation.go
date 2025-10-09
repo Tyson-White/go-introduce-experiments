@@ -1,6 +1,7 @@
 package category
 
 import (
+	"db-study/pkg"
 	"db-study/pkg/models"
 	"log"
 )
@@ -18,4 +19,26 @@ func (r *CategoryRepository) CreateCategory(name string) (models.Category, error
 	}
 
 	return category, nil
+}
+
+func (r *CategoryRepository) DeleteCategory(categoryId int) error {
+
+	res, err := r.db.Exec("DELETE FROM category WHERE id = $1", categoryId)
+
+	if err != nil {
+		return err
+	}
+
+	n, err := res.RowsAffected()
+
+	if err != nil {
+		return err
+	}
+
+	if n == 0 {
+		return pkg.ErrNotFound
+	}
+
+	return nil
+
 }
