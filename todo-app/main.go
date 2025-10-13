@@ -3,6 +3,7 @@ package main
 import (
 	httpserver "db-study/internal/http-server"
 	"db-study/internal/repository"
+	"db-study/pkg"
 )
 
 func main() {
@@ -15,14 +16,13 @@ func main() {
 
 	handler := httpserver.RootHandler(repository.DB)
 
+	go pkg.CleanFile("files/logs.txt")
+
 	httpserver.StartHttpServer(handler, 8080)
 }
 
 /*
 
-1. Получение категорий
-2. Удаление категорий
-3. Удаление Todo-шек
-4. Сделать логгер запросов с выводом в .txt файл
+1. Сделать логгер запросов с выводом в .txt файл
 
 */

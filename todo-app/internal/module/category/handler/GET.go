@@ -21,6 +21,6 @@ func (h *CategoryHandler) CategoriesAll(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	w.WriteHeader(http.StatusAccepted)
+	w.WriteHeader(http.StatusOK)
 	w.Write(data)
 }

@@ -12,6 +12,21 @@ type DBConnection struct {
 	DB *sqlx.DB
 }
 
+const schema = `
+	CREATE TABLE IF NOT EXISTS category (
+		id serial not null unique,
+		name varchar(100) unique not null
+	);
+
+	CREATE TABLE IF NOT EXISTS todos (
+		id serial PRIMARY KEY not null unique, 
+		title varchar(255) not null, 
+		text text, 
+		time timestamp default now(), 
+		completed bool default false,
+		category_id int REFERENCES category(id) ON DELETE SET NULL
+	)`
+
 func ConnectDB(
 	user,
 	password,
@@ -31,6 +46,12 @@ func ConnectDB(
 	}
 
 	dbconn.DB = db
+
+	_, err = db.Exec(schema)
+
+	if err != nil {
+		panic(err)
+	}
 
 	log.Println("[INFO] Connected to postgres on port:", dbPort)
 

@@ -1,7 +1,6 @@
 package httpserver
 
 import (
-	"db-study/internal/middlewares"
 	todoHandler "db-study/internal/module/todo/handler"
 	todoRepository "db-study/internal/module/todo/repository"
 	todoService "db-study/internal/module/todo/service"
@@ -30,6 +29,5 @@ func RootHandler(db *sqlx.DB) *mux.Router {
 	todoHandler.Handler(r.PathPrefix("/todos").Subrouter(), todoS)
 	categoryHandler.Handler(r.PathPrefix("/categories").Subrouter(), catS)
 
-	r.Use(middlewares.RequestLogMiddleware)
 	return r
 }
